@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <title>Calculator</title>
+</head>
+<body>
+    <script>
+        const main_c = document.createElement('div');
+        main_c.id = "main-container"
+        main_c.classList.add(
+            "d-flex",
+            "vh-100",
+            "justify-content-center",
+            "align-items-center",
+            "bg-dark")
+        document.body.appendChild(main_c)
+
+        const calc_body = document.createElement('div');
+        calc_body.id = "calculator-body-container"
+        calc_body.textContent = "Calculator"
+        calc_body.classList.add(
+            "border",
+            "border-secondary-subtle",
+            "bg-light",
+        )
+        main_c.appendChild(calc_body)
+        
+        const input_display = document.createElement("input");
+        input_display.classList.add("form-control");
+        input_display.setAttribute("type", "text");
+        input_display.value = ""
+        calc_body.appendChild(input_display)
+
+        const output_display = document.createElement('div');
+        output_display.value = ""
+        output_display.classList.add("p-2", "form-control", "text-end")
+        output_display.setAttribute('input','readonly')
+        output_display.style.height = "2.1rem";
+        
+        grid_layout = [
+            ['7','8','9','/'],
+            ['4','5','6','*'],
+            ['3','2', '1','-'],
+            ['0','.','=', '+'],
+            ['C','Out-D','Out-D','Out-D']
+        ]
+
+        const gridContainer = document.createElement('div');
+        gridContainer.classList.add("container");
+        calc_body.appendChild(gridContainer);
+
+        for (let i = 0; i < grid_layout.length; i++){
+            let row = document.createElement('div');
+            row.classList.add('row', 'mb-2');
+
+            for (let j = 0; j < grid_layout[i].length; j++){
+                let btn_content = grid_layout[i][j]
+                let column = document.createElement('div')
+                
+
+                if (btn_content != 'Out-D') {
+                    column.classList.add('col-3', 'p-1')
+                    let btn = document.createElement('button')
+                    btn.classList.add('btn', 'btn-primary', 'w-100')
+                    btn.textContent = btn_content;
+                
+                    btn.addEventListener('click', () => {
+                        if (btn_content == 'C'){
+                            input_display.value = ""
+                        } else if (btn_content == "=") {
+                            try {
+                                output_display.textContent = eval(input_display.value);
+                                input_display.value = ""
+                            }
+                            catch {
+                                input_display.value = "Error"
+                            }
+                        } else {
+                            input_display.value += btn_content
+                        }
+                    })
+                    column.appendChild(btn);
+                    row.appendChild(column);
+
+                } else {
+                    
+                    column.classList.add("col-9", "p-1");
+                    column.appendChild(output_display)
+                    row.appendChild(column);
+                    break;
+                    
+                    
+                }
+
+            }
+            gridContainer.appendChild(row);
+        }
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+</body>
+</html>
