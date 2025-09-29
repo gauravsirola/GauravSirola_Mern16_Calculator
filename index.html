@@ -49,7 +49,7 @@
         ]
 
         const gridContainer = document.createElement('div');
-        gridContainer.classList.add("container");
+        gridContainer.classList.add("container", "grid_container");
         calc_body.appendChild(gridContainer);
 
         for (let i = 0; i < grid_layout.length; i++){
@@ -59,29 +59,13 @@
             for (let j = 0; j < grid_layout[i].length; j++){
                 let btn_content = grid_layout[i][j]
                 let column = document.createElement('div')
-                
 
                 if (btn_content != 'Out-D') {
                     column.classList.add('col-3', 'p-1')
                     let btn = document.createElement('button')
                     btn.classList.add('btn', 'btn-primary', 'w-100')
                     btn.textContent = btn_content;
-                
-                    btn.addEventListener('click', () => {
-                        if (btn_content == 'C'){
-                            input_display.value = ""
-                        } else if (btn_content == "=") {
-                            try {
-                                output_display.textContent = eval(input_display.value);
-                                input_display.value = ""
-                            }
-                            catch {
-                                input_display.value = "Error"
-                            }
-                        } else {
-                            input_display.value += btn_content
-                        }
-                    })
+
                     column.appendChild(btn);
                     row.appendChild(column);
 
@@ -98,6 +82,26 @@
             }
             gridContainer.appendChild(row);
         }
+
+        gridContainer.addEventListener('click', (event) => {
+            if (event.target.textContent == "C"){
+                input_display.value = "";
+                output_display.textContent = "";
+            }
+            else if (event.target.textContent == "=") {
+                try {
+                        output_display.textContent = eval(input_display.value);
+                        input_display.value = ""
+                    }
+                    catch {
+                        output_display.value = "Error"
+                        input_display.value = ""
+                    }
+            } else {
+                input_display.value += event.target.textContent
+            }
+        });
+
 
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
